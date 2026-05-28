@@ -119,10 +119,12 @@ with st.sidebar:
 # ==========================================
 # 4. BACKGROUND MUSIC LIBRARY
 # ==========================================
-with st.sidebar:
-st.divider()
-st.subheader("🎵 Music Player")
-
+# 5. BACKGROUND MUSIC LIBRARY
+    with st.sidebar:  # Line 122
+        st.divider()  # Line 123 (Needs to be indented!)
+        st.subheader("🎵 Music Player")
+        
+        # ... your other sidebar code ...
 # 1. Define your 5 tracks here
 # Format: "Display Name": "filename.mp3"
 music_files = {
