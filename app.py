@@ -117,23 +117,41 @@ with st.sidebar:
 
 
 # ==========================================
-# BACKGROUND MUSIC (Native Component)
+# 4. BACKGROUND MUSIC LIBRARY
 # ==========================================
+with st.sidebar:
+st.divider()
+st.subheader("🎵 Music Player")
+
+# 1. Define your 5 tracks here
+# Format: "Display Name": "filename.mp3"
+music_files = {
+"for the moment - almost here": "1.mp3.mpeg",
+"better kind of sweet - instrumental": "2.mp3.mpeg",
+"coffeeshop stories - almost here": "3.mp3.mpeg",
+"drive-through dinner - tmagnus ringblom": "4.mp3.mpeg",
+"coffee in winter - kimano": "5.mp3.mpeg"
+}
+
+# 2. Let the user choose a track
+chosen_track = st.selectbox("Select a track:", list(music_files.keys()))
+
+# 3. Load and play the selected track
 try:
-    # Open the file using its exact current name on GitHub
-    with open("music.mp3.mpeg", "rb") as audio_file:
-        audio_bytes = audio_file.read()
-    
-    # Render the native audio player widget in the sidebar
-    with st.sidebar:
-        st.divider()
-        st.subheader("🎵 Background Music")
-        st.audio(audio_bytes, format="audio/mpeg", loop=True)
+# Get the filename from the dictionary based on the choice
+filename = music_files[chosen_track]
+
+with open(filename, "rb") as audio_file:
+audio_bytes = audio_file.read()
+
+# autoplay=True makes it start immediately when they pick a song
+st.audio(audio_bytes, format="audio/mpeg", loop=True, autoplay=True)
+
 except FileNotFoundError:
-    pass
+st.error(f"Missing file: {filename}. Please upload it to your repo.")
 
 # ==========================================
-# 4. MAIN APP INTERFACE
+# 5. MAIN APP INTERFACE
 # ==========================================
 st.title("🐇 Study Burrow Tracker")
 st.subheader("Keep focused, level up your pet!")
@@ -200,7 +218,7 @@ with col2:
             st.rerun()
 
 # ==========================================
-# 5. LIVE TIMER LOOP LOGIC
+# 6. LIVE TIMER LOOP LOGIC
 # ==========================================
 # Render the current time static state first
 mins, secs = divmod(st.session_state.time_left, 60)
@@ -244,7 +262,7 @@ if st.session_state.timer_running:
         time.sleep(2) # Give user a second to read before refreshing UI
         st.rerun()
 # ==========================================
-# 6. SIDEBAR SETTINGS & LOGOUT
+# 7. SIDEBAR SETTINGS & LOGOUT
 # ==========================================
 with st.sidebar:
     st.subheader("⚙️ Account Controls")
