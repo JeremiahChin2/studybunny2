@@ -139,18 +139,18 @@ music_files = {
 chosen_track = st.selectbox("Select a track:", list(music_files.keys()))
 
 # 3. Load and play the selected track
-try:
-# Get the filename from the dictionary based on the choice
-filename = music_files[chosen_track]
-
-with open(filename, "rb") as audio_file:
-audio_bytes = audio_file.read()
-
-# autoplay=True makes it start immediately when they pick a song
-st.audio(audio_bytes, format="audio/mpeg", loop=True, autoplay=True)
-
-except FileNotFoundError:
-st.error(f"Missing file: {filename}. Please upload it to your repo.")
+# 3. Load and play the selected track
+    try:
+        # These lines below MUST be indented further than 'try'
+        filename = music_files[chosen_track]
+        
+        with open(filename, "rb") as audio_file:
+            audio_bytes = audio_file.read()
+        
+        st.audio(audio_bytes, format="audio/mpeg", loop=True, autoplay=True)
+        
+    except FileNotFoundError:
+        st.error(f"Missing file: {filename}. Please upload it to your repo.")
 
 # ==========================================
 # 5. MAIN APP INTERFACE
