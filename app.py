@@ -69,24 +69,32 @@ with st.sidebar:
 # ==========================================
 # BACKGROUND MUSIC (Hidden Component)
 # ==========================================
-music_url = "https://youtu.be/K1FlPjSij3c?si=5dV61MsW9MgFR5o_"
+import base64
 
-hidden_audio_html = f"""
-<audio autoplay loop muted id="bg-music">
-    <source src="{music_url}" type="audio/mp3">
-</audio>
-<script>
-    document.body.addEventListener('click', function() {
-        var audio = document.getElementById('bg-music');
-        if (audio.muted) {{
-            audio.muted = false;
-            audio.play();
-        }}
-    }}, {{ once: true }});
-</script>
-"""
+try:
+    # Read your uploaded MP3 file from your GitHub repository
+    with open("music.mp3", "rb") as f:
+        mp3_bytes = f.read()
+    mp3_base64 = base64.b64encode(mp3_bytes).decode()
 
-st.components.v1.html(hidden_audio_html, height=0, width=0)
+    hidden_audio_html = f"""
+    <audio autoplay loop muted id="bg-music">
+        <source src="data:audio/mp3;base64,{mp3_base64}" type="audio/mp3">
+    </audio>
+    <script>
+        document.body.addEventListener('click', function() {{
+            var audio = document.getElementById('bg-music');
+            if (audio.muted) {{
+                audio.muted = false;
+                audio.play();
+            }}
+        }}, {{ once: true }});
+    </script>
+    """
+    st.components.v1.html(hidden_audio_html, height=0, width=0)
+except FileNotFoundError:
+    # Keeps your app running perfectly even before you upload 'music.mp3'
+    pass
 
 # ==========================================
 # 4. MAIN APP INTERFACE
