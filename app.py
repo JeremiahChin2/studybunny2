@@ -127,10 +127,10 @@ with st.sidebar:
     
     music_files = {
         "for the moment - almost here": "1.mp3.mpeg",
-        "better kind of sweet - instrumental": "2.mp3.mpeg",
-        "coffeeshop stories - almost here": "3.mp3.mpeg",
-        "drive-through dinner - tmagnus ringblom": "4.mp3.mpeg",
-        "coffee in winter - kimano": "5.mp3.mpeg"
+        "coffee in winter - kimano": "2.mp3.mpeg",
+        "drive-through dinner- almost here": "3.mp3.mpeg",
+        "coffeeshop stories - almost here - tmagnus ringblom": "4.mp3.mpeg",
+        "better kind of sweet  - instrumental": "5.mp3.mpeg"
     }
     
     chosen_track = st.selectbox("Select a track:", list(music_files.keys()))
