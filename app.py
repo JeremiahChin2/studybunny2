@@ -67,33 +67,19 @@ with st.sidebar:
 
 
 # ==========================================
-# BACKGROUND MUSIC (Hidden Component)
+# BACKGROUND MUSIC (Native Component)
 # ==========================================
-import base64
-
 try:
-    # Read your uploaded MP3 file from your GitHub repository
-    with open("music.mp3", "rb") as f:
-        mp3_bytes = f.read()
-    mp3_base64 = base64.b64encode(mp3_bytes).decode()
-
-    hidden_audio_html = f"""
-    <audio autoplay loop muted id="bg-music">
-        <source src="data:audio/mp3;base64,{mp3_base64}" type="audio/mp3">
-    </audio>
-    <script>
-        document.body.addEventListener('click', function() {{
-            var audio = document.getElementById('bg-music');
-            if (audio.muted) {{
-                audio.muted = false;
-                audio.play();
-            }}
-        }}, {{ once: true }});
-    </script>
-    """
-    st.components.v1.html(hidden_audio_html, height=0, width=0)
+    # Open your uploaded music file safely
+    with open("music.mp3", "rb") as audio_file:
+        audio_bytes = audio_file.read()
+    
+    # Render a clean, tiny native audio player widget in the sidebar
+    with st.sidebar:
+        st.divider()
+        st.subheader("🎵 Background Music")
+        st.audio(audio_bytes, format="audio/mp3", loop=True)
 except FileNotFoundError:
-    # Keeps your app running perfectly even before you upload 'music.mp3'
     pass
 
 # ==========================================
