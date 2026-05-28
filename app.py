@@ -120,34 +120,26 @@ with st.sidebar:
 # 4. BACKGROUND MUSIC LIBRARY
 # ==========================================
 # 5. BACKGROUND MUSIC LIBRARY
-    with st.sidebar:  # Line 122
-        st.divider()  # Line 123 (Needs to be indented!)
-        st.subheader("🎵 Music Player")
-        
-        # ... your other sidebar code ...
-# 1. Define your 5 tracks here
-# Format: "Display Name": "filename.mp3"
-music_files = {
-"for the moment - almost here": "1.mp3.mpeg",
-"better kind of sweet - instrumental": "2.mp3.mpeg",
-"coffeeshop stories - almost here": "3.mp3.mpeg",
-"drive-through dinner - tmagnus ringblom": "4.mp3.mpeg",
-"coffee in winter - kimano": "5.mp3.mpeg"
-}
-
-# 2. Let the user choose a track
+# ==========================================
+with st.sidebar:
+    st.divider()
+    st.subheader("🎵 Music Player")
+    
+    music_files = {
+        "for the moment - almost here": "1.mp3.mpeg",
+        "better kind of sweet - instrumental": "2.mp3.mpeg",
+        "coffeeshop stories - almost here": "3.mp3.mpeg",
+        "drive-through dinner - tmagnus ringblom": "4.mp3.mpeg",
+        "coffee in winter - kimano": "5.mp3.mpeg"
+    }
+    
     chosen_track = st.selectbox("Select a track:", list(music_files.keys()))
     
-    # 3. Load and play the selected track
-    # Make sure this 'try' is aligned with 'chosen_track' above
     try:
         filename = music_files[chosen_track]
-        
         with open(filename, "rb") as audio_file:
             audio_bytes = audio_file.read()
-        
         st.audio(audio_bytes, format="audio/mpeg", loop=True, autoplay=True)
-        
     except FileNotFoundError:
         st.error(f"Missing file: {filename}. Please upload it to your repo.")
 
