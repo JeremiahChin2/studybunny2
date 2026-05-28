@@ -234,12 +234,10 @@ if st.session_state.timer_running:
         st.session_state.level, 
         st.session_state.exp
     )
-        
-        st.balloons()
-        st.success(f"🎉 Session complete! You earned +{earned_exp} EXP for your Bunny!")
-        
-        if st.session_state.level > old_level:
-            st.toast(f"✨ WOW! Your Bunny evolved into Level {st.session_state.level}! ✨")
+    st.balloons()
+    st.success(f"🎉 Session complete! You earned + {earned_exp} EXP for your Bunny!")
+    if st.session_state.level > old_level:
+        st.toast(f"✨ WOW! Your Bunny evolved into Level {st.session_state.level} ! ✨")
             
         # Reset clock for the next session
         st.session_state.time_left = chosen_seconds
