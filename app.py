@@ -5,7 +5,7 @@ import time
 # 1. PAGE CONFIGURATION & INITIALIZATION
 # ==========================================
 st.set_page_config(
-    page_title="Study Bunny",
+    page_title="Study Burrow",
     page_icon="🐇",
     layout="centered"
 )
