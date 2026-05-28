@@ -50,8 +50,8 @@ def login_user(username, password):
 
 def save_user_progress(username, level, exp):
     """Saves the bunny stats for a logged-in user."""
-    if username == "Guest":
-        return # Don't save guest data to the database
+    if username == "Guest" or username is None:
+        return 
     conn = sqlite3.connect(DB_FILE)
     c = conn.cursor()
     c.execute("UPDATE users SET level = ?, exp = ? WHERE username = ?", (level, exp, username))
