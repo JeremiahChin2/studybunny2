@@ -70,15 +70,15 @@ with st.sidebar:
 # BACKGROUND MUSIC (Native Component)
 # ==========================================
 try:
-    # Open your uploaded music file safely
-    with open("music.mp3", "rb") as audio_file:
+    # Open the file using its exact current name on GitHub
+    with open("music.mp3.mpeg", "rb") as audio_file:
         audio_bytes = audio_file.read()
     
-    # Render a clean, tiny native audio player widget in the sidebar
+    # Render the native audio player widget in the sidebar
     with st.sidebar:
         st.divider()
         st.subheader("🎵 Background Music")
-        st.audio(audio_bytes, format="audio/mp3", loop=True)
+        st.audio(audio_bytes, format="audio/mpeg", loop=True)
 except FileNotFoundError:
     pass
 
