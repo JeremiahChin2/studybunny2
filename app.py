@@ -1,8 +1,8 @@
 import streamlit as st
 import time
-import database as db  # Import our helper file
+import database as db  # Connects to your working database.py file
 
-# Initialize database
+# Initialize database tables
 db.init_db()
 
 st.set_page_config(page_title="Study Burrow", page_icon="🐇", layout="centered")
@@ -25,7 +25,7 @@ if "timer_running" not in st.session_state:
 if "time_left" not in st.session_state:
     st.session_state.time_left = 25 * 60
 
-# --- LOGIN SCREEN IF NOT LOGGED IN ---
+# --- LOGIN GATEWAY SCREEN ---
 if not st.session_state.logged_in:
     st.title("🐇 Welcome to the Study Burrow!")
     st.subheader("Login or Enter as a Guest to begin tracking.")
@@ -68,9 +68,8 @@ if not st.session_state.logged_in:
             st.session_state.exp = 0
             st.rerun()
 
-    st.stop() # Stops execution here so they can't see the app without choosing an option
+    st.stop() # Freeze view here until an option above routes them through
 
-# --- IF LOGGED IN, RENDER THE REST OF YOUR APP CODE BELOW ---
 # ==========================================
 # 2. GAMIFICATION LOGIC (EXP & LEVELS)
 # ==========================================
@@ -225,9 +224,16 @@ if st.session_state.timer_running:
         earned_exp = int((chosen_seconds / 60) * 10)
         st.session_state.exp += earned_exp
         
-        # Process levels and trigger celebrations
-        old_level = st.session_state.level
-        check_level_up()
+   # Process levels and trigger celebrations
+    old_level = st.session_state.level
+    check_level_up()
+
+    # 💾 SAVE DATA TO DATABASE HERE
+    db.save_user_progress(
+        st.session_state.username, 
+        st.session_state.level, 
+        st.session_state.exp
+    )
         
         st.balloons()
         st.success(f"🎉 Session complete! You earned +{earned_exp} EXP for your Bunny!")
@@ -238,4 +244,13 @@ if st.session_state.timer_running:
         # Reset clock for the next session
         st.session_state.time_left = chosen_seconds
         time.sleep(2) # Give user a second to read before refreshing UI
+        st.rerun()
+# ==========================================
+# 6. SIDEBAR SETTINGS & LOGOUT
+# ==========================================
+with st.sidebar:
+    st.subheader("⚙️ Account Controls")
+    if st.button("🚪 Log Out", use_container_width=True):
+        st.session_state.logged_in = False
+        st.session_state.username = None
         st.rerun()
