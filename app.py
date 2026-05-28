@@ -1,16 +1,21 @@
 import streamlit as st
 import time
+import database as db  # Import our helper file
+
+# Initialize database
+db.init_db()
+
+st.set_page_config(page_title="Study Burrow", page_icon="🐇", layout="centered")
 
 # ==========================================
-# 1. PAGE CONFIGURATION & INITIALIZATION
+# USER ROUTING & AUTHENTICATION STATE
 # ==========================================
-st.set_page_config(
-    page_title="Study Burrow",
-    page_icon="🐇",
-    layout="centered"
-)
+if "logged_in" not in st.session_state:
+    st.session_state.logged_in = False
+if "username" not in st.session_state:
+    st.session_state.username = None
 
-# Initialize Session State variables if they don't exist
+# Standard app tracking states
 if "exp" not in st.session_state:
     st.session_state.exp = 0
 if "level" not in st.session_state:
@@ -18,8 +23,54 @@ if "level" not in st.session_state:
 if "timer_running" not in st.session_state:
     st.session_state.timer_running = False
 if "time_left" not in st.session_state:
-    st.session_state.time_left = 25 * 60  # Default 25 minutes in seconds
+    st.session_state.time_left = 25 * 60
 
+# --- LOGIN SCREEN IF NOT LOGGED IN ---
+if not st.session_state.logged_in:
+    st.title("🐇 Welcome to the Study Burrow!")
+    st.subheader("Login or Enter as a Guest to begin tracking.")
+    
+    tab1, tab2, tab3 = st.tabs(["🔐 Login", "📝 Sign Up", "👤 Guest Mode"])
+    
+    with tab1:
+        login_user = st.text_input("Username", key="l_user")
+        login_pass = st.text_input("Password", type="password", key="l_pass")
+        if st.button("Log In"):
+            user_data = db.login_user(login_user, login_pass)
+            if user_data:
+                st.session_state.logged_in = True
+                st.session_state.username = login_user
+                st.session_state.level = user_data["level"]
+                st.session_state.exp = user_data["exp"]
+                st.success(f"Welcome back, {login_user}!")
+                st.rerun()
+            else:
+                st.error("Invalid username or password.")
+                
+    with tab2:
+        reg_user = st.text_input("Choose Username", key="r_user")
+        reg_pass = st.text_input("Choose Password", type="password", key="r_pass")
+        if st.button("Create Account"):
+            if reg_user and reg_pass:
+                if db.register_user(reg_user, reg_pass):
+                    st.success("Account created! Please switch to the Login tab.")
+                else:
+                    st.error("Username already taken.")
+            else:
+                st.error("Please fill out all fields.")
+                
+    with tab3:
+        st.info("💡 Guest data is temporary and will clear when the browser tab closes.")
+        if st.button("Continue as Guest ➡️"):
+            st.session_state.logged_in = True
+            st.session_state.username = "Guest"
+            st.session_state.level = 1
+            st.session_state.exp = 0
+            st.rerun()
+
+    st.stop() # Stops execution here so they can't see the app without choosing an option
+
+# --- IF LOGGED IN, RENDER THE REST OF YOUR APP CODE BELOW ---
 # ==========================================
 # 2. GAMIFICATION LOGIC (EXP & LEVELS)
 # ==========================================
