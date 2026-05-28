@@ -65,6 +65,29 @@ with st.sidebar:
     st.divider()
     st.caption("Pro-tip: Don't refresh the page while the timer is running, or your bunny will lose track of time!")
 
+
+# ==========================================
+# BACKGROUND MUSIC (Hidden Component)
+# ==========================================
+music_url = "https://youtu.be/K1FlPjSij3c?si=5dV61MsW9MgFR5o_"
+
+hidden_audio_html = f"""
+<audio autoplay loop muted id="bg-music">
+    <source src="{music_url}" type="audio/mp3">
+</audio>
+<script>
+    document.body.addEventListener('click', function() {
+        var audio = document.getElementById('bg-music');
+        if (audio.muted) {{
+            audio.muted = false;
+            audio.play();
+        }}
+    }}, {{ once: true }});
+</script>
+"""
+
+st.components.v1.html(hidden_audio_html, height=0, width=0)
+
 # ==========================================
 # 4. MAIN APP INTERFACE
 # ==========================================
