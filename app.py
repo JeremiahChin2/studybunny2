@@ -38,7 +38,7 @@ def check_level_up():
 
 def get_bunny_tier(lvl):
     if lvl <= 2:
-        return "Baby Bun 🍼", "🐇"
+        return "Baby Bunny 🍼", "🐇"
     elif lvl <= 5:
         return "Studious Sprout 🌱", "🐇🥕"
     elif lvl <= 9:
@@ -68,7 +68,7 @@ with st.sidebar:
 # ==========================================
 # 4. MAIN APP INTERFACE
 # ==========================================
-st.title("🐇 Study Bunny Tracker")
+st.title("🐇 Study Burrow Tracker")
 st.subheader("Keep focused, level up your pet!")
 
 # Layout: Split into Bunny Status and Timer Control
