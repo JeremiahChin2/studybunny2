@@ -136,12 +136,11 @@ music_files = {
 }
 
 # 2. Let the user choose a track
-chosen_track = st.selectbox("Select a track:", list(music_files.keys()))
-
-# 3. Load and play the selected track
-# 3. Load and play the selected track
+    chosen_track = st.selectbox("Select a track:", list(music_files.keys()))
+    
+    # 3. Load and play the selected track
+    # Make sure this 'try' is aligned with 'chosen_track' above
     try:
-        # These lines below MUST be indented further than 'try'
         filename = music_files[chosen_track]
         
         with open(filename, "rb") as audio_file:
